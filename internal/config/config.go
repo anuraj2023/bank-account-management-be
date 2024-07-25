@@ -24,10 +24,6 @@ func Load() (*Config, error) {
 
 	if err := godotenv.Load(envFilePath); err != nil {
 		log.Println("Warning: .env file not found. Using environment variables from system.")
-		log.Println("SERVER_ADDRESS : ", os.Getenv("SERVER_ADDRESS"))
-		log.Println("IMMUDB_URL : ", os.Getenv("IMMUDB_URL"))
-		log.Println("IMMUDB_USERNAME : ", os.Getenv("IMMUDB_USERNAME"))
-		log.Println("IMMUDB_PASSWORD : ", os.Getenv("IMMUDB_PASSWORD"))
 	}
 
 	config := &Config{

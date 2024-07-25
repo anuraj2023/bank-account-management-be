@@ -1,7 +1,7 @@
 # Start from a newer golang base image
 FROM golang:1.21-alpine AS builder
 
-# Set the Current Working Directory inside the container
+# Set the Current Working Directory as app
 WORKDIR /app
 
 # Copy go.mod and go.sum files
@@ -19,9 +19,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o main
 # Optimizing for a lean docker image which has built binary and minimal packages
 FROM alpine:latest 
 
-# Install necessary packages
-RUN apk --no-cache add ca-certificates
-
+# Set the Current Working Directory as root
 WORKDIR /root/
 
 # Copy the Pre-built binary file from the previous stage
