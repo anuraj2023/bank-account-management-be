@@ -26,17 +26,22 @@ There are two ways to run this project:
    cd bank-account-management-be
    ```
 
-2. Copy the `.env.example` file to `.env` and fill in all the values:
+2. Download all dependencies
+   ```
+   go mod download
+   ```
+
+3. Copy the `.env.example` file to `.env` and fill in all the values:
    ```
    cp .env.example .env
    ```
 
-3. Start immudb in a Docker container:
+4. Start immudb in a Docker container:
    ```
    docker run -it -d -p 3322:3322 -p 9497:9497 --name immudb codenotary/immudb:latest
    ```
 
-4. Run the main.go file to start the server locally:
+5. Run the main.go file to start the server locally:
    ```
    go run cmd/server/main.go
    ```
