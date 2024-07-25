@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVER_ADDRESS=${SERVER_ADDRESS}
+      - IMMUDB_ADDRESS=${IMMUDB_ADDRESS}
+      - IMMUDB_URL=${IMMUDB_URL}
+      - IMMUDB_PORT=${IMMUDB_PORT}
+      - IMMUDB_USERNAME=${IMMUDB_USERNAME}
+      - IMMUDB_PASSWORD=${IMMUDB_PASSWORD}
+    depends_on:
+      - immudb
+
+  immudb:
+    image: codenotary/immudb:latest
+    ports:
+      - "3322:3322" 
+      - "9497:9497" 
+    volumes:
+      - immudb_data:/var/lib/immudb 
+
+volumes:
+  immudb_data:
