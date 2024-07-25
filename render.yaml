@@ -7,7 +7,6 @@ services:
     envVars:
       - key: SERVER_ADDRESS
       - key: IMMUDB_ADDRESS
-      - key: IMMUDB_URL
       - key: IMMUDB_PORT
       - key: IMMUDB_USERNAME
       - key: IMMUDB_PASSWORD

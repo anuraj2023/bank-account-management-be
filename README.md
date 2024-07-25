@@ -52,8 +52,7 @@ There are two ways to run this project:
 2. Build and run the service using Docker Compose, passing all required environment variables:
    ```
    SERVER_ADDRESS="" \
-   IMMUDB_ADDRESS=""
-   IMMUDB_URL="" \
+   IMMUDB_ADDRESS="" \
    IMMUDB_PORT="" \
    IMMUDB_USERNAME="" \
    IMMUDB_PASSWORD="" \

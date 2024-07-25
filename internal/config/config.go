@@ -28,13 +28,12 @@ func Load() (*Config, error) {
 
 	config := &Config{
 		ServerAddress:  os.Getenv("SERVER_ADDRESS"),
-		ImmudbURL:      os.Getenv("IMMUDB_URL"),
 		ImmudbUsername: os.Getenv("IMMUDB_USERNAME"),
 		ImmudbPassword: os.Getenv("IMMUDB_PASSWORD"),
 	}
 
-	if config.ImmudbURL == "" || config.ImmudbUsername == "" || config.ImmudbPassword == "" {
-		return nil, fmt.Errorf("missing required immudb related values")
+	if config.ServerAddress == "" || config.ImmudbUsername == "" || config.ImmudbPassword == "" {
+		return nil, fmt.Errorf("missing required immudb related values or  ServerAddress")
 	}
 
 	return config, nil
