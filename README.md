@@ -51,10 +51,12 @@ There are two ways to run this project:
 
 2. Build and run the service using Docker Compose, passing all required environment variables:
    ```
-   SERVER_ADDRESS=":8080" \
-   IMMUDB_ADDRESS="immudb" \
-   IMMUDB_USERNAME="immudb" \
-   IMMUDB_PASSWORD="immudb" \
+   SERVER_ADDRESS="" \
+   IMMUDB_ADDRESS=""
+   IMMUDB_URL="" \
+   IMMUDB_PORT="" \
+   IMMUDB_USERNAME="" \
+   IMMUDB_PASSWORD="" \
    docker-compose up
    ```
    Make sure to replace the values with your actual configuration.

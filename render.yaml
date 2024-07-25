@@ -1,0 +1,24 @@
+services:
+  # Web service
+  - type: web
+    name: app
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: SERVER_ADDRESS
+      - key: IMMUDB_ADDRESS
+      - key: IMMUDB_URL
+      - key: IMMUDB_PORT
+      - key: IMMUDB_USERNAME
+      - key: IMMUDB_PASSWORD
+    healthCheckPath: /health
+
+  # ImmuDB service
+  - type: pserv
+    name: immudb
+    runtime: image
+    image:
+      url: codenotary/immudb:latest
+    disk:
+      name: immudb-data
+      mountPath: /var/lib/immudb
