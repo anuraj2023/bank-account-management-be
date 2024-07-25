@@ -6,10 +6,15 @@ services:
     dockerfilePath: ./Dockerfile
     envVars:
       - key: SERVER_ADDRESS
+        value: ${SERVER_ADDRESS}  
       - key: IMMUDB_ADDRESS
+        value: ${IMMUDB_ADDRESS} 
       - key: IMMUDB_PORT
+        value: ${IMMUDB_PORT}
       - key: IMMUDB_USERNAME
+        value: ${IMMUDB_USERNAME}
       - key: IMMUDB_PASSWORD
+        value: ${IMMUDB_PASSWORD}
     healthCheckPath: /health
 
   # ImmuDB service
