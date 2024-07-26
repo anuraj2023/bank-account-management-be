@@ -14,6 +14,11 @@ This project is a simple bank account management service built with Go and the E
 - Docker and Docker Compose
 - immudb
 
+## Deployment
+
+Code is already deployed on render platform and it is available here:  
+[https://bank-account-management-be.onrender.com/swagger/index.html](https://bank-account-management-be.onrender.com/swagger/index.html)
+
 ## Getting Started
 
 There are two ways to run this project:
