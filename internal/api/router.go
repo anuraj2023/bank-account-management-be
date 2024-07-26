@@ -38,8 +38,7 @@ func NewServer(cfg *config.Config, repo repository.AccountRepository) *Server {
 
 	// Account Routes
 	e.POST("/accounts", accountHandler.CreateAccount)
-	e.GET("/accounts/:accountNumber", accountHandler.GetAccount)
-	e.GET("/accounts", accountHandler.ListAccounts)
+	e.GET("/accounts", accountHandler.GetAllAccounts)
 
 	return &Server{
 		echo: e,

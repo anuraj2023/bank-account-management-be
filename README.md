@@ -57,11 +57,9 @@ There are two ways to run this project:
 
 2. Build and run the service using Docker Compose, passing all required environment variables:
    ```
-   SERVER_ADDRESS="" \
-   IMMUDB_ADDRESS="" \
-   IMMUDB_PORT="" \
-   IMMUDB_USERNAME="" \
-   IMMUDB_PASSWORD="" \
+   SERVER_PORT="" \
+   IMMUDB_URL="" \
+   IMMUDB_API_KEY="" \
    docker-compose up
    ```
    Make sure to replace the values with your actual configuration.
@@ -79,9 +77,14 @@ The service will be available at `http://localhost:8080`
 
 ## To-Do
 
-1. Adding Swagger API documentation
-2. Implementing unit tests
-3. Adding pagination to GET APIs
+1. Implementing unit tests
+
+## Note:
+
+- In case you need to generate swagger docs after making some change in API code, run the below command:
+   ```
+   swag init -g cmd/server/main.go --parseDependency --parseInternal
+   ```
 
 ## License
 

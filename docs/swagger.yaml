@@ -22,12 +22,21 @@ definitions:
         example: DE89370400440532013000
         type: string
       type:
+        allOf:
+        - $ref: '#/definitions/github_com_anuraj2023_bank-account-management-be_internal_models.AccountType'
         enum:
         - sending
         - receiving
         example: sending
-        type: string
     type: object
+  github_com_anuraj2023_bank-account-management-be_internal_models.AccountType:
+    enum:
+    - sending
+    - receiving
+    type: string
+    x-enum-varnames:
+    - AccountTypeSending
+    - AccountTypeReceiving
   internal_api_handlers.HealthResponse:
     properties:
       status:
@@ -87,33 +96,6 @@ paths:
           schema:
             $ref: '#/definitions/echo.HTTPError'
       summary: Create a new account
-      tags:
-      - accounts
-  /accounts/{accountNumber}:
-    get:
-      description: Retrieve a bank account by its account number
-      parameters:
-      - description: Account Number
-        in: path
-        name: accountNumber
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/github_com_anuraj2023_bank-account-management-be_internal_models.Account'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-      summary: Get an account by account number
       tags:
       - accounts
   /health:

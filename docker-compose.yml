@@ -6,23 +6,6 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SERVER_ADDRESS=${SERVER_ADDRESS}
-      - IMMUDB_ADDRESS=${IMMUDB_ADDRESS}
-      - IMMUDB_PORT=${IMMUDB_PORT}
-      - IMMUDB_USERNAME=${IMMUDB_USERNAME}
-      - IMMUDB_PASSWORD=${IMMUDB_PASSWORD}
-    depends_on:
-      - immudb
-
-  immudb:
-    image: codenotary/immudb:latest
-    ports:
-      - "3322:3322" 
-      - "9497:9497" 
-    volumes:
-      - immudb_data:/var/lib/immudb
-    environment:
-      - IMMUDB_ADDRESS=0.0.0.0 
-
-volumes:
-  immudb_data:
+       - SERVER_PORT=${SERVER_PORT}
+       - IMMUDB_URL=${IMMUDB_URL}
+       - IMMUDB_API_KEY=${IMMUDB_API_KEY}

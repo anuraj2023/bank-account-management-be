@@ -88,47 +88,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/accounts/{accountNumber}": {
-            "get": {
-                "description": "Retrieve a bank account by its account number",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "accounts"
-                ],
-                "summary": "Get an account by account number",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Account Number",
-                        "name": "accountNumber",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_anuraj2023_bank-account-management-be_internal_models.Account"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/echo.HTTPError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/echo.HTTPError"
-                        }
-                    }
-                }
-            }
-        },
         "/health": {
             "get": {
                 "description": "check if the web service is healthy",
@@ -178,14 +137,29 @@ const docTemplate = `{
                     "example": "DE89370400440532013000"
                 },
                 "type": {
-                    "type": "string",
                     "enum": [
                         "sending",
                         "receiving"
                     ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_anuraj2023_bank-account-management-be_internal_models.AccountType"
+                        }
+                    ],
                     "example": "sending"
                 }
             }
+        },
+        "github_com_anuraj2023_bank-account-management-be_internal_models.AccountType": {
+            "type": "string",
+            "enum": [
+                "sending",
+                "receiving"
+            ],
+            "x-enum-varnames": [
+                "AccountTypeSending",
+                "AccountTypeReceiving"
+            ]
         },
         "internal_api_handlers.HealthResponse": {
             "type": "object",

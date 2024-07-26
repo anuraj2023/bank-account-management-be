@@ -3,3 +3,6 @@
 
 # IDependency directory
 vendor/
+
+# Built binary
+main

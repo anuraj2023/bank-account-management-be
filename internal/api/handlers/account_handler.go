@@ -45,30 +45,6 @@ func (h *AccountHandler) CreateAccount(c echo.Context) error {
 }
 
 
-// @Summary Get an account by account number
-// @Description Retrieve a bank account by its account number
-// @Tags accounts
-// @Produce json
-// @Param accountNumber path string true "Account Number"
-// @Success 200 {object} models.Account
-// @Failure 404 {object} echo.HTTPError
-// @Failure 500 {object} echo.HTTPError
-// @Router /accounts/{accountNumber} [get]
-func (h *AccountHandler) GetAccount(c echo.Context) error {
-	accountNumber := c.Param("accountNumber")
-
-	account, err := h.repo.GetAccount(c.Request().Context(), accountNumber)
-	if err != nil {
-		if err == repository.ErrAccountNotFound {
-			return echo.NewHTTPError(http.StatusNotFound, "Account not found")
-		}
-		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to retrieve account")
-	}
-
-	return c.JSON(http.StatusOK, account)
-}
-
-
 // @Summary List all accounts
 // @Description Retrieve a list of all bank accounts
 // @Tags accounts
@@ -76,8 +52,8 @@ func (h *AccountHandler) GetAccount(c echo.Context) error {
 // @Success 200 {array} models.Account
 // @Failure 500 {object} echo.HTTPError
 // @Router /accounts [get]
-func (h *AccountHandler) ListAccounts(c echo.Context) error {
-	accounts, err := h.repo.ListAccounts(c.Request().Context())
+func (h *AccountHandler) GetAllAccounts(c echo.Context) error {
+	accounts, err := h.repo.GetAllAccounts(c.Request().Context())
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to retrieve accounts")
 	}
