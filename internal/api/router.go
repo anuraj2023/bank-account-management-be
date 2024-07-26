@@ -5,11 +5,13 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/swaggo/echo-swagger"
 
 	"github.com/anuraj2023/bank-account-management-be/internal/api/handlers"
 	customMiddleware "github.com/anuraj2023/bank-account-management-be/internal/api/middleware"
 	"github.com/anuraj2023/bank-account-management-be/internal/config"
 	"github.com/anuraj2023/bank-account-management-be/internal/repository"
+	_ "github.com/anuraj2023/bank-account-management-be/docs"
 )
 
 type Server struct {
@@ -27,6 +29,9 @@ func NewServer(cfg *config.Config, repo repository.AccountRepository) *Server {
 
 	// Handler
 	accountHandler := handlers.NewAccountHandler(repo)
+
+	// Configure swagger
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	// Health Check Route
 	e.GET("/health", handlers.HealthCheckHandler)

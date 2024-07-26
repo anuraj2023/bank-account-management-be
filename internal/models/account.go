@@ -13,12 +13,12 @@ const (
 )
 
 type Account struct {
-	AccountNumber string      `json:"account_number"`
-	AccountName   string      `json:"account_name"`
-	IBAN          string      `json:"iban"`
-	Address       string      `json:"address"`
-	Amount        float64     `json:"amount"`
-	Type          AccountType `json:"type"`
+    AccountNumber string      `json:"account_number" example:"1234567890"`
+    AccountName   string      `json:"account_name" example:"Tom Cruise"`
+    IBAN          string      `json:"iban" example:"DE89370400440532013000"`
+    Address       string      `json:"address" example:"123 Becker Str, Berlin, DE 12345"`
+    Amount        float64     `json:"amount" example:"1000.50"`
+    Type          AccountType `json:"type" example:"sending" enums:"sending,receiving"`
 }
 
 func (a *Account) Validate() error {

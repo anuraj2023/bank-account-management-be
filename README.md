@@ -43,7 +43,8 @@ There are two ways to run this project:
 
 5. Run the main.go file to start the server locally:
    ```
-   go run cmd/server/main.go
+   cd cmd/server
+   go run main.go
    ```
 
 ### 2. Running with Docker Compose

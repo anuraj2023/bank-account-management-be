@@ -1,0 +1,130 @@
+basePath: /
+definitions:
+  echo.HTTPError:
+    properties:
+      message: {}
+    type: object
+  github_com_anuraj2023_bank-account-management-be_internal_models.Account:
+    properties:
+      account_name:
+        example: Tom Cruise
+        type: string
+      account_number:
+        example: "1234567890"
+        type: string
+      address:
+        example: 123 Becker Str, Berlin, DE 12345
+        type: string
+      amount:
+        example: 1000.5
+        type: number
+      iban:
+        example: DE89370400440532013000
+        type: string
+      type:
+        enum:
+        - sending
+        - receiving
+        example: sending
+        type: string
+    type: object
+  internal_api_handlers.HealthResponse:
+    properties:
+      status:
+        example: healthy
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This projects deals with creating and fetching bank account(s)
+  title: Swagger - Bank Account Management APIs
+  version: "1.0"
+paths:
+  /accounts:
+    get:
+      description: Retrieve a list of all bank accounts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_anuraj2023_bank-account-management-be_internal_models.Account'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: List all accounts
+      tags:
+      - accounts
+    post:
+      consumes:
+      - application/json
+      description: Create a new bank account
+      parameters:
+      - description: Account details
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_anuraj2023_bank-account-management-be_internal_models.Account'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_anuraj2023_bank-account-management-be_internal_models.Account'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Create a new account
+      tags:
+      - accounts
+  /accounts/{accountNumber}:
+    get:
+      description: Retrieve a bank account by its account number
+      parameters:
+      - description: Account Number
+        in: path
+        name: accountNumber
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_anuraj2023_bank-account-management-be_internal_models.Account'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Get an account by account number
+      tags:
+      - accounts
+  /health:
+    get:
+      description: check if the web service is healthy
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_api_handlers.HealthResponse'
+      summary: Check Health
+swagger: "2.0"
