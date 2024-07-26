@@ -43,7 +43,7 @@ definitions:
         example: healthy
         type: string
     type: object
-host: localhost:8080
+host: https://bank-account-management-be.onrender.com/
 info:
   contact: {}
   description: This projects deals with creating and fetching bank account(s)

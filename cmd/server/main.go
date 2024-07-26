@@ -1,10 +1,3 @@
-// @title Swagger - Bank Account Management APIs
-// @version 1.0
-// @description This projects deals with creating and fetching bank account(s)
-// @host localhost:8080
-// @BasePath /
-
-//go:generate swag init
 package main
 
 import (
@@ -22,7 +15,11 @@ import (
 	"github.com/anuraj2023/bank-account-management-be/pkg/immudb"
 )
 
-
+// @title Swagger - Bank Account Management APIs
+// @version 1.0
+// @description This projects deals with creating and fetching bank accounts
+// @host https://bank-account-management-be.onrender.com/
+// @BasePath /
 func main() {
 
     // Loading environment variables and store in config 

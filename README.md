@@ -78,7 +78,7 @@ The service will be available at `http://localhost:8080`
 - `internal/config`: Manages application configuration
 - `internal/models`: Defines data models
 - `internal/repository`: Implements data storage and retrieval
-- `pkg/immudb`: Provides a client for interacting with immudb
+- `pkg/immudb`: Provides a client for interacting with immudb vault
 
 ## To-Do
 
