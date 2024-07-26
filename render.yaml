@@ -21,7 +21,7 @@ services:
       - key: IMMUDB_PORT
         value: "3322"
       - key: IMMUDB_ADDRESS
-        value: "immudb"
+        value: "0.0.0.0"
       - key: IMMUDB_USERNAME
         value: "immudb"
       - key: IMMUDB_PASSWORD
