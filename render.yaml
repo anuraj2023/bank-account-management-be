@@ -1,4 +1,14 @@
 services:
+  # ImmuDB service
+  - type: pserv
+    name: immudb
+    runtime: image
+    image:
+      url: codenotary/immudb:latest
+    disk:
+      name: immudb-data
+      mountPath: /var/lib/immudb
+
   # Web service
   - type: web
     name: app
@@ -12,12 +22,4 @@ services:
       - key: IMMUDB_USERNAME
       - key: IMMUDB_PASSWORD
     
-  # ImmuDB service
-  - type: pserv
-    name: immudb
-    runtime: image
-    image:
-      url: codenotary/immudb:latest
-    disk:
-      name: immudb-data
-      mountPath: /var/lib/immudb
+  
