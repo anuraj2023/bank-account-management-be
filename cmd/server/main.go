@@ -1,3 +1,9 @@
+// @title Swagger - Bank Account Management APIs
+// @version 1.0
+// @description This projects deals with creating and fetching bank account(s)
+// @host localhost:8080
+// @BasePath /
+
 //go:generate swag init
 package main
 
@@ -8,17 +14,15 @@ import (
 	"os/signal"
 	"time"
 
+     _ "github.com/labstack/echo/v4"
+
 	"github.com/anuraj2023/bank-account-management-be/internal/api"
 	"github.com/anuraj2023/bank-account-management-be/internal/config"
 	"github.com/anuraj2023/bank-account-management-be/internal/repository"
 	"github.com/anuraj2023/bank-account-management-be/pkg/immudb"
 )
 
-// @title Swagger - Bank Account Management APIs
-// @version 1.0
-// @description This projects deals with creating and fetching bank account(s)
-// @host localhost:8080
-// @BasePath /
+
 func main() {
 
     // Loading environment variables and store in config 
@@ -28,18 +32,17 @@ func main() {
     }
 
     // Initializing the immudb client 
-    immudbClient, err := immudb.NewClient(cfg.ImmudbURL, cfg.ImmudbUsername, cfg.ImmudbPassword)
+    immudbClient, err := immudb.NewClient(cfg.ImmuDbUrl, cfg.ImmuDbApiKey)
     if err != nil {
         log.Fatalf("Error creating immudb client: %v", err)
     }
-    defer immudbClient.Close() 
 
     repo := repository.NewAccountRepository(immudbClient)
     server := api.NewServer(cfg, repo)
 
     // Starting server in a separate goroutine
     go func() {
-        if err := server.Start(cfg.ServerAddress); err != nil {
+        if err := server.Start(cfg.ServerPort); err != nil {
             log.Printf("Server stopped with error: %v", err)
         }
     }()
