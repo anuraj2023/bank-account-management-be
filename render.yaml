@@ -8,15 +8,14 @@ services:
       - key: SERVER_ADDRESS
       - key: IMMUDB_ADDRESS
         fromService:
-          type: pserv
           name: immudb
+          type: pserv
           property: host
       - key: IMMUDB_PORT
-        value: 3322
       - key: IMMUDB_USERNAME
       - key: IMMUDB_PASSWORD
     healthCheckPath: /health
-
+    
   # ImmuDB service
   - type: pserv
     name: immudb
@@ -28,4 +27,6 @@ services:
       mountPath: /var/lib/immudb
     envVars:
       - key: IMMUDB_ADDRESS
-        value: 0.0.0.0
+      - key: IMMUDB_PORT
+      - key: IMMUDB_ADDRESS
+      - key: IMMUDB_PASSWORD
