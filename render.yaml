@@ -17,9 +17,12 @@ services:
     healthCheckPath: /health
     envVars:
       - key: SERVER_ADDRESS
+        value: ":8080"
       - key: IMMUDB_PORT
+        value: "3322"
       - key: IMMUDB_ADDRESS
+        value: "immudb"
       - key: IMMUDB_USERNAME
+        value: "immudb"
       - key: IMMUDB_PASSWORD
-    
-  
+        value: "immudb"
