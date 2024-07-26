@@ -4,17 +4,13 @@ services:
     name: app
     runtime: docker
     dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
     envVars:
       - key: SERVER_ADDRESS
-      - key: IMMUDB_ADDRESS
-        fromService:
-          name: immudb
-          type: pserv
-          property: host
       - key: IMMUDB_PORT
+      - key: IMMUDB_ADDRESS
       - key: IMMUDB_USERNAME
       - key: IMMUDB_PASSWORD
-    healthCheckPath: /health
     
   # ImmuDB service
   - type: pserv
@@ -25,8 +21,3 @@ services:
     disk:
       name: immudb-data
       mountPath: /var/lib/immudb
-    envVars:
-      - key: IMMUDB_ADDRESS
-      - key: IMMUDB_PORT
-      - key: IMMUDB_ADDRESS
-      - key: IMMUDB_PASSWORD
