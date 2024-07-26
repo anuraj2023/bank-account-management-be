@@ -20,7 +20,9 @@ services:
       - "3322:3322" 
       - "9497:9497" 
     volumes:
-      - immudb_data:/var/lib/immudb 
+      - immudb_data:/var/lib/immudb
+    environment:
+      - IMMUDB_ADDRESS=0.0.0.0 
 
 volumes:
   immudb_data:
