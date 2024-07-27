@@ -18,7 +18,7 @@ import (
 // @title Swagger - Bank Account Management APIs
 // @version 1.0
 // @description This projects deals with creating and fetching bank accounts
-// @host https://bank-account-management-be.onrender.com/
+// @host bank-account-management-be.onrender.com
 // @BasePath /
 func main() {
 
