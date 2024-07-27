@@ -43,10 +43,10 @@ definitions:
         example: healthy
         type: string
     type: object
-host: https://bank-account-management-be.onrender.com/
+host: bank-account-management-be.onrender.com
 info:
   contact: {}
-  description: This projects deals with creating and fetching bank account(s)
+  description: This projects deals with creating and fetching bank accounts
   title: Swagger - Bank Account Management APIs
   version: "1.0"
 paths:

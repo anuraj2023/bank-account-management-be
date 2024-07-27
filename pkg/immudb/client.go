@@ -57,6 +57,8 @@ func (c *Client) GetAll(ctx context.Context, page, perPage int) ([]map[string]in
 		return nil, fmt.Errorf("failed to marshal query: %v", err)
 	}
 
+	fmt.Printf("Query JSON: %s\n", string(jsonData))
+
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, fmt.Sprintf("%s/default/collection/default/documents/search", c.url), bytes.NewBuffer(jsonData))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create request: %v", err)
@@ -66,12 +68,16 @@ func (c *Client) GetAll(ctx context.Context, page, perPage int) ([]map[string]in
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("X-API-Key", c.apiKey)
 
+	fmt.Printf("Request URL: %s\n", req.URL.String())
+
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("failed to send request: %v", err)
 	}
 	defer resp.Body.Close()
+
+	fmt.Printf("Response Status: %s\n", resp.Status)
 
 	if resp.StatusCode != http.StatusOK {
 		bodyBytes, _ := ioutil.ReadAll(resp.Body)
@@ -85,6 +91,8 @@ func (c *Client) GetAll(ctx context.Context, page, perPage int) ([]map[string]in
 	if err != nil {
 		return nil, fmt.Errorf("failed to decode response: %v", err)
 	}
+
+	fmt.Printf("Fetched Documents: %v\n", result.Documents)
 
 	return result.Documents, nil
 }

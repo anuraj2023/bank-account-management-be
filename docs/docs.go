@@ -176,11 +176,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "https://bank-account-management-be.onrender.com/",
+	Host:             "bank-account-management-be.onrender.com",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Swagger - Bank Account Management APIs",
-	Description:      "This projects deals with creating and fetching bank account(s)",
+	Description:      "This projects deals with creating and fetching bank accounts",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

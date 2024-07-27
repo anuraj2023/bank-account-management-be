@@ -29,6 +29,8 @@ func main() {
     }
 
     // Initializing the immudb client 
+    log.Println("cfg.ImmuDbUrl is : ", cfg.ImmuDbUrl)
+    log.Println("cfg.ImmuDbApiKey is : ", cfg.ImmuDbApiKey)
     immudbClient, err := immudb.NewClient(cfg.ImmuDbUrl, cfg.ImmuDbApiKey)
     if err != nil {
         log.Fatalf("Error creating immudb client: %v", err)
