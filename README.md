@@ -41,12 +41,7 @@ There are two ways to run this project:
    cp .env.example .env
    ```
 
-4. Start immudb in a Docker container:
-   ```
-   docker run -it -d -p 3322:3322 -p 9497:9497 --name immudb codenotary/immudb:latest
-   ```
-
-5. Run the main.go file to start the server locally:
+4. Run the main.go file to start the server locally:
    ```
    cd cmd/server
    go run main.go
@@ -62,14 +57,15 @@ There are two ways to run this project:
 
 2. Build and run the service using Docker Compose, passing all required environment variables:
    ```
-   SERVER_PORT="" \
-   IMMUDB_URL="" \
-   IMMUDB_API_KEY="" \
+   SERVER_PORT=:8080\
+   IMMUDB_URL="https://vault.immudb.io/ics/api/v1/ledger"\
+   IMMUDB_API_KEY=""\
    docker-compose up
    ```
-   Make sure to replace the values with your actual configuration.
+   Make sure to replace the IMMUDB_API_KEY with your API Key value.
 
-The service will be available at `http://localhost:8080`
+The service will be available at `http://localhost:8080` <br/>
+For API docs in local, you can visit this URL: `http://localhost:8080/swagger/index.html`
 
 ## Project Structure
 
