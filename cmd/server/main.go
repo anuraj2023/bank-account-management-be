@@ -15,12 +15,12 @@ import (
 	"github.com/anuraj2023/bank-account-management-be/pkg/immudb"
 )
 
-// change host to bank-account-management-be.onrender.com for prod and run swag init command from Readme.md
+// change host to bank-account-management-be.onrender.com for prod and localhost:8080 for local and run swag init command from Readme.md
 
 // @title Swagger - Bank Account Management APIs
 // @version 1.0
 // @description This projects deals with creating and fetching bank accounts
-// @host localhost:8080
+// @host bank-account-management-be.onrender.com
 // @BasePath /
 func main() {
 

@@ -52,7 +52,82 @@ func (c *Client) getHeaders() map[string]string {
 	}
 }
 
+func (c *Client) AccNumberAlreadyExists(ctx context.Context, accNumber string) (bool, error) {
+	fmt.Println("In AccNumberAlreadyExists")
+	query := map[string]interface{}{
+		"searchId": "1234567892",
+		"query": map[string]interface{}{
+			"expressions": []map[string]interface{}{
+				{
+					"fieldComparisons": []map[string]interface{}{
+						{
+							"field":    "acc_number",
+							"operator": "EQ",
+							"value":    accNumber,
+						},
+					},
+				},
+			},
+		},
+		"page":    1,
+		"perPage": 1,
+	}
+	fmt.Println("query: ", query)
+	jsonData, err := json.Marshal(query)
+	if err != nil {
+		fmt.Println("error in marshalling query: ", err)
+		return false, fmt.Errorf("failed to marshal query: %v", err)
+	}
+	fmt.Println("jsonData: ", string(jsonData))
+
+	url := fmt.Sprintf("%s/default/collection/default/documents/search", c.url)
+	headers := c.getHeaders()
+	respBody, err := http_utils.MakeRequest(ctx, http.MethodPost, url, headers, jsonData)
+	if err != nil {
+		fmt.Println("error in making request: ", err)
+		return false, err
+	}
+
+	if respBody.StatusCode != http.StatusOK {
+		fmt.Println("respBody.StatusCode is: ", respBody.StatusCode)
+		fmt.Println("response body: ", string(respBody.Body))
+		return false, fmt.Errorf("failed to search documents, status code: %d, response: %s", respBody.StatusCode, string(respBody.Body))
+	}
+
+	var result AccountSearchResults
+	err = json.Unmarshal(respBody.Body, &result)
+	if err != nil {
+		fmt.Println("Failed to decode response: ", err)
+		return false, fmt.Errorf("failed to decode response: %v", err)
+	}
+
+	return len(result.Revisions) > 0, nil
+}
+
+
+
 func (c *Client) Save(ctx context.Context, data []byte) error {
+	
+	var account map[string]interface{}
+	if err := json.Unmarshal(data, &account); err != nil {
+		return fmt.Errorf("failed to unmarshal data: %v", err)
+	}
+
+	// accNumber, ok := account["acc_number"].(string)
+	// if !ok {
+	// 	return fmt.Errorf("account number not found or invalid")
+	// }
+
+	// exists, err := c.AccNumberAlreadyExists(ctx, accNumber)
+	// if err != nil {
+	// 	return fmt.Errorf("failed to check if account number already exists: %v", err)
+	// }
+
+	// If account number exists already, no need to create a new record
+	// if exists {
+	// 	return fmt.Errorf("account number %s already exists", accNumber)
+	// }
+
 	url := fmt.Sprintf("%s/default/collection/default/document", c.url)
 	headers := c.getHeaders()
 	respBody, err := http_utils.MakeRequest(ctx, http.MethodPut, url, headers, data)
