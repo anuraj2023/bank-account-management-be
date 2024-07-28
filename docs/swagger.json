@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "bank-account-management-be.onrender.com",
+    "host": "localhost:8080",
     "basePath": "/",
     "paths": {
         "/accounts": {
@@ -110,11 +110,11 @@
         "github_com_anuraj2023_bank-account-management-be_internal_models.Account": {
             "type": "object",
             "properties": {
-                "account_name": {
+                "acc_name": {
                     "type": "string",
                     "example": "Tom Cruise"
                 },
-                "account_number": {
+                "acc_number": {
                     "type": "string",
                     "example": "1234567890"
                 },

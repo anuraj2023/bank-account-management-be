@@ -13,8 +13,8 @@ const (
 )
 
 type Account struct {
-    AccountNumber string      `json:"account_number" example:"1234567890"`
-    AccountName   string      `json:"account_name" example:"Tom Cruise"`
+    AccountNumber string      `json:"acc_number" example:"1234567890"`
+    AccountName   string      `json:"acc_name" example:"Tom Cruise"`
     IBAN          string      `json:"iban" example:"DE89370400440532013000"`
     Address       string      `json:"address" example:"123 Becker Str, Berlin, DE 12345"`
     Amount        float64     `json:"amount" example:"1000.50"`

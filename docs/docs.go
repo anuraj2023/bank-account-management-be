@@ -116,11 +116,11 @@ const docTemplate = `{
         "github_com_anuraj2023_bank-account-management-be_internal_models.Account": {
             "type": "object",
             "properties": {
-                "account_name": {
+                "acc_name": {
                     "type": "string",
                     "example": "Tom Cruise"
                 },
-                "account_number": {
+                "acc_number": {
                     "type": "string",
                     "example": "1234567890"
                 },
@@ -176,7 +176,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "bank-account-management-be.onrender.com",
+	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Swagger - Bank Account Management APIs",

@@ -1,12 +1,12 @@
 package immudb
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
+
+	http_utils "github.com/anuraj2023/bank-account-management-be/internal/utils"
 )
 
 type Client struct {
@@ -14,40 +14,59 @@ type Client struct {
 	url    string
 }
 
-func NewClient(url string, apiKey string) (*Client, error) {
+type AccountSearchResults struct {
+	Page      int `json:"page"`
+	PerPage   int `json:"perPage"`
+	Revisions []struct {
+		Document struct {
+			ID         string `json:"_id"`
+			VaultMD    struct {
+				Creator string `json:"creator"`
+				TS      int64  `json:"ts"`
+			} `json:"_vault_md"`
+			AccName    string  `json:"acc_name"`
+			AccNumber  string  `json:"acc_number"`
+			Address    string  `json:"address"`
+			Amount     float64 `json:"amount"`
+			IBAN       string  `json:"iban"`
+			Type       string  `json:"type"`
+		} `json:"document"`
+		Revision      string `json:"revision"`
+		TransactionID string `json:"transactionId"`
+	} `json:"revisions"`
+	SearchID string `json:"searchId"`
+}
+
+func NewClient(url, apiKey string) *Client {
 	return &Client{
 		apiKey: apiKey,
 		url:    url,
-	}, nil
+	}
+}
+
+func (c *Client) getHeaders() map[string]string {
+	return map[string]string{
+		"accept":       "application/json",
+		"Content-Type": "application/json",
+		"X-API-Key":    c.apiKey,
+	}
 }
 
 func (c *Client) Save(ctx context.Context, data []byte) error {
-	req, err := http.NewRequestWithContext(ctx, http.MethodPut, fmt.Sprintf("%s/default/collection/default/document", c.url), bytes.NewBuffer(data))
+	url := fmt.Sprintf("%s/default/collection/default/document", c.url)
+	headers := c.getHeaders()
+	respBody, err := http_utils.MakeRequest(ctx, http.MethodPut, url, headers, data)
 	if err != nil {
-		return fmt.Errorf("failed to create request: %v", err)
+		return err
 	}
 
-	req.Header.Set("accept", "application/json")
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("X-API-Key", c.apiKey)
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return fmt.Errorf("failed to send request: %v", err)
+	if respBody.StatusCode != http.StatusOK {
+		return fmt.Errorf("failed to set document, status code: %d, response: %s", respBody.StatusCode, string(respBody.Body))
 	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		bodyBytes, _ := ioutil.ReadAll(resp.Body)
-		return fmt.Errorf("failed to set document, status code: %d, response: %s", resp.StatusCode, string(bodyBytes))
-	}
-
 	return nil
 }
 
 func (c *Client) GetAll(ctx context.Context, page, perPage int) ([]map[string]interface{}, error) {
-	fmt.Println("Inside ListDocuments")
 	query := map[string]int{
 		"page":    page,
 		"perPage": perPage,
@@ -57,42 +76,38 @@ func (c *Client) GetAll(ctx context.Context, page, perPage int) ([]map[string]in
 		return nil, fmt.Errorf("failed to marshal query: %v", err)
 	}
 
-	fmt.Printf("Query JSON: %s\n", string(jsonData))
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, fmt.Sprintf("%s/default/collection/default/documents/search", c.url), bytes.NewBuffer(jsonData))
+	url := fmt.Sprintf("%s/default/collection/default/documents/search", c.url)
+	headers := c.getHeaders()
+	respBody, err := http_utils.MakeRequest(ctx, http.MethodPost, url, headers, jsonData)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create request: %v", err)
+		return nil, err
 	}
 
-	req.Header.Set("accept", "application/json")
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("X-API-Key", c.apiKey)
-
-	fmt.Printf("Request URL: %s\n", req.URL.String())
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, fmt.Errorf("failed to send request: %v", err)
-	}
-	defer resp.Body.Close()
-
-	fmt.Printf("Response Status: %s\n", resp.Status)
-
-	if resp.StatusCode != http.StatusOK {
-		bodyBytes, _ := ioutil.ReadAll(resp.Body)
-		return nil, fmt.Errorf("failed to get documents, status code: %d, response: %s", resp.StatusCode, string(bodyBytes))
+	if respBody.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("failed to get documents, status code: %d, response: %s", respBody.StatusCode, string(respBody.Body))
 	}
 
-	var result struct {
-		Documents []map[string]interface{} `json:"documents"`
-	}
-	err = json.NewDecoder(resp.Body).Decode(&result)
+	var result AccountSearchResults
+	err = json.Unmarshal(respBody.Body, &result)
 	if err != nil {
 		return nil, fmt.Errorf("failed to decode response: %v", err)
 	}
 
-	fmt.Printf("Fetched Documents: %v\n", result.Documents)
+	var documents []map[string]interface{}
+	for _, revision := range result.Revisions {
+		document := map[string]interface{}{
+			"id":         revision.Document.ID,
+			"creator":    revision.Document.VaultMD.Creator,
+			"ts":         revision.Document.VaultMD.TS,
+			"acc_name":   revision.Document.AccName,
+			"acc_number": revision.Document.AccNumber,
+			"address":    revision.Document.Address,
+			"amount":     revision.Document.Amount,
+			"iban":       revision.Document.IBAN,
+			"type":       revision.Document.Type,
+		}
+		documents = append(documents, document)
+	}
 
-	return result.Documents, nil
+	return documents, nil
 }

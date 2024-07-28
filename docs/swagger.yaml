@@ -6,10 +6,10 @@ definitions:
     type: object
   github_com_anuraj2023_bank-account-management-be_internal_models.Account:
     properties:
-      account_name:
+      acc_name:
         example: Tom Cruise
         type: string
-      account_number:
+      acc_number:
         example: "1234567890"
         type: string
       address:
@@ -43,7 +43,7 @@ definitions:
         example: healthy
         type: string
     type: object
-host: bank-account-management-be.onrender.com
+host: localhost:8080
 info:
   contact: {}
   description: This projects deals with creating and fetching bank accounts
