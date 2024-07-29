@@ -40,7 +40,6 @@ func main() {
 	corsConfig := middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE, echo.OPTIONS},
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}
 
 	server := api.NewServer(cfg, repo, corsConfig)
