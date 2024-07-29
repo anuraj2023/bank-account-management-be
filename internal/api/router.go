@@ -19,12 +19,13 @@ type Server struct {
 	cfg  *config.Config
 }
 
-func NewServer(cfg *config.Config, repo repository.AccountRepository) *Server {
+func NewServer(cfg *config.Config, repo repository.AccountRepository, corsConfig middleware.CORSConfig) *Server {
 	e := echo.New()
 
 	// Middlewares
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(middleware.CORSWithConfig(corsConfig))
 	e.Use(customMiddleware.ErrorHandler)
 
 	// Handler
