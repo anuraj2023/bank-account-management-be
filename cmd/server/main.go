@@ -7,7 +7,8 @@ import (
 	"os/signal"
 	"time"
 
-	_ "github.com/labstack/echo/v4"
+	echo "github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 
 	"github.com/anuraj2023/bank-account-management-be/internal/api"
 	"github.com/anuraj2023/bank-account-management-be/internal/config"
@@ -34,7 +35,15 @@ func main() {
 	immudbClient := immudb.NewClient(cfg.ImmuDbUrl, cfg.ImmuDbApiKey)
 
 	repo := repository.NewAccountRepository(immudbClient)
-	server := api.NewServer(cfg, repo)
+
+	// Create CORS config
+	corsConfig := middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE, echo.OPTIONS},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}
+
+	server := api.NewServer(cfg, repo, corsConfig)
 
 	// Starting server in a separate goroutine
 	go func() {
